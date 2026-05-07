@@ -1,24 +1,12 @@
 import type { Metadata } from 'next'
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/server'
 import { signOut } from '@/lib/actions/auth'
-
-export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getClaims()
-  const email = data?.claims?.email as string | undefined
-
-  if (!email || email !== process.env.ADMIN_EMAIL) {
-    redirect('/')
-  }
-
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)]">
       <aside className="w-56 shrink-0 border-r border-border bg-muted/30">
