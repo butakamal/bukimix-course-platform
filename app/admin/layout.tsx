@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { signOut } from '@/lib/actions/auth'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
