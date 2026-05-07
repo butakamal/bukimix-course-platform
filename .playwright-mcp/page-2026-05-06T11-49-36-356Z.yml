@@ -1,0 +1,28 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Bukimix" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "講座一覧" [ref=e6] [cursor=pointer]:
+          - /url: /courses
+      - link "ログイン" [ref=e8] [cursor=pointer]:
+        - /url: /login
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - heading "ログイン" [level=1] [ref=e13]
+        - paragraph [ref=e14]: アカウントにログインしてください
+      - button "Googleでログイン" [ref=e16]:
+        - img [ref=e17]
+        - text: Googleでログイン
+  - contentinfo [ref=e22]:
+    - generic [ref=e23]:
+      - link "利用規約" [ref=e24] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e25] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e26]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e32] [cursor=pointer]:
+    - img [ref=e33]
+  - alert [ref=e36]

@@ -1,0 +1,78 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Bukimix" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "講座一覧" [ref=e6] [cursor=pointer]:
+          - /url: /courses
+        - link "マイページ" [ref=e7] [cursor=pointer]:
+          - /url: /my
+      - generic [ref=e8]:
+        - img "ブキブキ" [ref=e9]
+        - generic [ref=e10]: ブキブキ
+        - button "ログアウト" [ref=e12]
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - button "動画を再生" [ref=e18]:
+          - img [ref=e22]
+        - generic [ref=e24]:
+          - heading "イントロダクション" [level=1] [ref=e25]
+          - button "○ 視聴済みにする" [ref=e26]:
+            - generic [ref=e27]: ○
+            - text: 視聴済みにする
+        - article [ref=e28]:
+          - paragraph [ref=e29]: 講座の概要と学習内容を説明します。
+        - navigation [ref=e30]:
+          - link "App Router の基礎 →" [ref=e31] [cursor=pointer]:
+            - /url: /courses/nextjs-fundamentals/lessons/app-router
+      - complementary [ref=e32]:
+        - heading "Next.js 基礎講座" [level=2] [ref=e33]
+        - list [ref=e34]:
+          - listitem [ref=e35]:
+            - link "1 イントロダクション 1:40" [ref=e36] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/intro
+              - generic [ref=e37]: "1"
+              - generic [ref=e38]: イントロダクション
+              - generic [ref=e39]: 1:40
+          - listitem [ref=e40]:
+            - link "2 App Router の基礎 2:36" [ref=e41] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/app-router
+              - generic [ref=e42]: "2"
+              - generic [ref=e43]: App Router の基礎
+              - generic [ref=e44]: 2:36
+          - listitem [ref=e45]:
+            - link "3 データフェッチング 1:40" [ref=e46] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/data-fetching
+              - generic [ref=e47]: "3"
+              - generic [ref=e48]: データフェッチング
+              - generic [ref=e49]: 1:40
+          - listitem [ref=e50]:
+            - link "4 Server Components 入門 3:33" [ref=e51] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/nextjs-server-components
+              - generic [ref=e52]: "4"
+              - generic [ref=e53]: Server Components 入門
+              - generic [ref=e54]: 3:33
+          - listitem [ref=e55]:
+            - link "5 Supabase との連携 3:33" [ref=e56] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/nextjs-supabase
+              - generic [ref=e57]: "5"
+              - generic [ref=e58]: Supabase との連携
+              - generic [ref=e59]: 3:33
+          - listitem [ref=e60]:
+            - link "6 Vercel へのデプロイ 3:33" [ref=e61] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/nextjs-deploy
+              - generic [ref=e62]: "6"
+              - generic [ref=e63]: Vercel へのデプロイ
+              - generic [ref=e64]: 3:33
+  - contentinfo [ref=e65]:
+    - generic [ref=e66]:
+      - link "利用規約" [ref=e67] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e68] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e69]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e75] [cursor=pointer]:
+    - img [ref=e76]
+  - alert [ref=e79]

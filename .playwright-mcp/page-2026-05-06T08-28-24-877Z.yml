@@ -1,0 +1,56 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - link "Bukimix" [ref=e5] [cursor=pointer]:
+          - /url: /
+        - navigation [ref=e6]:
+          - link "講座一覧" [ref=e7] [cursor=pointer]:
+            - /url: /courses
+          - link "マイページ" [ref=e8] [cursor=pointer]:
+            - /url: /my
+      - generic [ref=e9]:
+        - img "ブキブキ" [ref=e10]
+        - generic [ref=e11]: ブキブキ
+        - button "ログアウト" [ref=e13]
+  - main [ref=e15]:
+    - heading "Next.js 基礎講座" [level=1] [ref=e17]
+    - generic [ref=e18]:
+      - generic [ref=e19]:
+        - heading "レッスン一覧" [level=2] [ref=e20]
+        - list [ref=e21]:
+          - listitem [ref=e22]:
+            - link "1 イントロダクション 5:00" [ref=e23] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/intro
+              - generic [ref=e24]: "1"
+              - generic [ref=e25]: イントロダクション
+              - generic [ref=e26]: 5:00
+          - listitem [ref=e27]:
+            - link "2 App Router の基礎 10:00" [ref=e28] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/app-router
+              - generic [ref=e29]: "2"
+              - generic [ref=e30]: App Router の基礎
+              - generic [ref=e31]: 10:00
+          - listitem [ref=e32]:
+            - link "3 データフェッチング 12:00" [ref=e33] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/data-fetching
+              - generic [ref=e34]: "3"
+              - generic [ref=e35]: データフェッチング
+              - generic [ref=e36]: 12:00
+      - complementary [ref=e37]:
+        - generic [ref=e38]:
+          - heading "概要" [level=2] [ref=e39]
+          - paragraph [ref=e40]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+        - generic [ref=e41]:
+          - heading "進捗" [level=3] [ref=e42]
+          - paragraph [ref=e45]: 0/3本 (0%)
+  - contentinfo [ref=e46]:
+    - generic [ref=e47]:
+      - link "利用規約" [ref=e48] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e49] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e50]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e56] [cursor=pointer]:
+    - img [ref=e57]
+  - alert [ref=e60]

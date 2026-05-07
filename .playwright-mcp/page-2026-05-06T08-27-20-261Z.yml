@@ -1,0 +1,41 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e5]:
+      - heading "動画で学ぶ、スキルを磨く" [level=1] [ref=e6]
+      - paragraph [ref=e7]: Bukimix は、体系的な動画講座で実践的なスキルを学べる無料プラットフォームです。
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - heading "講座一覧" [level=2] [ref=e11]
+        - link "すべて見る →" [ref=e12] [cursor=pointer]:
+          - /url: /courses
+      - link "Next.js 基礎講座 Next.js App Router を使ったモダンなウェブアプリ開発を学びます。 3 レッスン" [ref=e14] [cursor=pointer]:
+        - /url: /courses/nextjs-fundamentals
+        - generic [ref=e17]:
+          - heading "Next.js 基礎講座" [level=2] [ref=e18]
+          - paragraph [ref=e19]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+          - paragraph [ref=e20]: 3 レッスン
+    - generic [ref=e22]:
+      - heading "Bukimix の特徴" [level=2] [ref=e23]
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - generic [ref=e26]: 📚
+          - heading "体系的に学べる" [level=3] [ref=e27]
+          - paragraph [ref=e28]: 順序立てた講座構成で、基礎から応用まで無理なく身につきます。
+        - generic [ref=e29]:
+          - generic [ref=e30]: 🆓
+          - heading "完全無料" [level=3] [ref=e31]
+          - paragraph [ref=e32]: すべての講座・レッスンを無料でご利用いただけます。
+        - generic [ref=e33]:
+          - generic [ref=e34]: 📱
+          - heading "スマホ対応" [level=3] [ref=e35]
+          - paragraph [ref=e36]: どのデバイスからでも快適に学習できます。
+  - contentinfo [ref=e37]:
+    - generic [ref=e38]:
+      - link "利用規約" [ref=e39] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e40] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e41]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e47] [cursor=pointer]:
+    - img [ref=e48]
+  - alert [ref=e51]

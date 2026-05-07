@@ -1,0 +1,62 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e6]:
+      - paragraph [ref=e7]: 完全無料のプログラミング学習
+      - heading "動画で学ぶ、 スキルを磨く" [level=1] [ref=e8]:
+        - text: 動画で学ぶ、
+        - text: スキルを磨く
+      - paragraph [ref=e9]: 体系的な動画講座で実践的なスキルを学べる無料プラットフォーム。 Next.js、TypeScript、Reactなど最新技術を習得しましょう。
+    - generic [ref=e12]:
+      - generic [ref=e13]: ✓ 全講座無料
+      - generic [ref=e14]: ✓ ログイン不要で視聴可能
+      - generic [ref=e15]: ✓ 進捗管理機能つき
+      - generic [ref=e16]: ✓ スマホ・PC対応
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - heading "注目の講座" [level=2] [ref=e20]
+          - paragraph [ref=e21]: 人気の講座をチェックしよう
+        - link "すべて見る →" [ref=e22] [cursor=pointer]:
+          - /url: /courses
+      - link "無料 Next.js 基礎講座 Bukimix 講師 4.7 (1,234) 無料 3 レッスン" [ref=e24] [cursor=pointer]:
+        - /url: /courses/nextjs-fundamentals
+        - generic [ref=e27]: 無料
+        - generic [ref=e28]:
+          - heading "Next.js 基礎講座" [level=2] [ref=e29]
+          - paragraph [ref=e30]: Bukimix 講師
+          - generic [ref=e31]:
+            - generic [ref=e32]: "4.7"
+            - generic [ref=e33]: ★★★★★
+            - generic [ref=e34]: (1,234)
+          - generic [ref=e35]:
+            - generic [ref=e36]: 無料
+            - generic [ref=e37]: 3 レッスン
+    - generic [ref=e39]:
+      - heading "Bukimix で学ぶ理由" [level=2] [ref=e40]
+      - generic [ref=e41]:
+        - generic [ref=e42]:
+          - generic [ref=e43]: 🎬
+          - heading "動画でわかりやすく" [level=3] [ref=e44]
+          - paragraph [ref=e45]: テキストだけではわかりにくい概念も、動画で視覚的に理解できます。
+        - generic [ref=e46]:
+          - generic [ref=e47]: 🆓
+          - heading "完全無料" [level=3] [ref=e48]
+          - paragraph [ref=e49]: すべての講座・レッスンを登録なしで無料でご利用いただけます。
+        - generic [ref=e50]:
+          - generic [ref=e51]: 📊
+          - heading "進捗を管理" [level=3] [ref=e52]
+          - paragraph [ref=e53]: ログインすると学習進捗を記録。どこまで学んだか一目でわかります。
+    - generic [ref=e55]:
+      - heading "今すぐ学習を始めよう" [level=2] [ref=e56]
+      - paragraph [ref=e57]: 無料・登録不要で全講座にアクセスできます。
+      - link "講座一覧を見る" [ref=e58] [cursor=pointer]:
+        - /url: /courses
+  - contentinfo [ref=e59]:
+    - generic [ref=e60]:
+      - link "利用規約" [ref=e61] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e62] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e63]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e69] [cursor=pointer]:
+    - img [ref=e70]

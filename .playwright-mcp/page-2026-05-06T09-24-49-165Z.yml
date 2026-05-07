@@ -1,0 +1,53 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Bukimix" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e6]:
+        - button "メニューを開く" [ref=e8]:
+          - img [ref=e9]
+        - img "ブキブキ" [ref=e11]
+        - generic [ref=e12]: ブキブキ
+        - button "ログアウト" [ref=e14]
+  - generic [ref=e15]:
+    - generic [ref=e17]:
+      - heading "動画で学ぶ、スキルを磨く" [level=1] [ref=e18]
+      - paragraph [ref=e19]: Bukimix は、体系的な動画講座で実践的なスキルを学べる無料プラットフォームです。
+      - link "マイページへ" [ref=e20] [cursor=pointer]:
+        - /url: /my
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - heading "講座一覧" [level=2] [ref=e23]
+        - link "すべて見る →" [ref=e24] [cursor=pointer]:
+          - /url: /courses
+      - link "Next.js 基礎講座 Next.js App Router を使ったモダンなウェブアプリ開発を学びます。 3 レッスン" [ref=e26] [cursor=pointer]:
+        - /url: /courses/nextjs-fundamentals
+        - generic [ref=e29]:
+          - heading "Next.js 基礎講座" [level=2] [ref=e30]
+          - paragraph [ref=e31]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+          - paragraph [ref=e32]: 3 レッスン
+    - generic [ref=e34]:
+      - heading "Bukimix の特徴" [level=2] [ref=e35]
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]: 📚
+          - heading "体系的に学べる" [level=3] [ref=e39]
+          - paragraph [ref=e40]: 順序立てた講座構成で、基礎から応用まで無理なく身につきます。
+        - generic [ref=e41]:
+          - generic [ref=e42]: 🆓
+          - heading "完全無料" [level=3] [ref=e43]
+          - paragraph [ref=e44]: すべての講座・レッスンを無料でご利用いただけます。
+        - generic [ref=e45]:
+          - generic [ref=e46]: 📱
+          - heading "スマホ対応" [level=3] [ref=e47]
+          - paragraph [ref=e48]: どのデバイスからでも快適に学習できます。
+  - contentinfo [ref=e49]:
+    - generic [ref=e50]:
+      - link "利用規約" [ref=e51] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e52] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e53]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e59] [cursor=pointer]:
+    - img [ref=e60]
+  - alert [ref=e63]

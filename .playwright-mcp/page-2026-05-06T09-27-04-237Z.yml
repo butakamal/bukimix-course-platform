@@ -1,0 +1,19 @@
+- generic [active] [ref=e1]:
+  - main [ref=e4]:
+    - heading "講座一覧" [level=1] [ref=e5]
+    - link "Next.js 基礎講座 Next.js App Router を使ったモダンなウェブアプリ開発を学びます。 3 レッスン" [ref=e7] [cursor=pointer]:
+      - /url: /courses/nextjs-fundamentals
+      - generic [ref=e10]:
+        - heading "Next.js 基礎講座" [level=2] [ref=e11]
+        - paragraph [ref=e12]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+        - paragraph [ref=e13]: 3 レッスン
+  - contentinfo [ref=e14]:
+    - generic [ref=e15]:
+      - link "利用規約" [ref=e16] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e17] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e18]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e24] [cursor=pointer]:
+    - img [ref=e25]
+  - alert [ref=e28]

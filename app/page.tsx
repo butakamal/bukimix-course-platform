@@ -1,65 +1,166 @@
-import Image from "next/image";
+import Link from 'next/link'
+import { Suspense } from 'react'
+import { createServerClient } from '@supabase/ssr'
+import { cacheLife } from 'next/cache'
+import { createClient } from '@/lib/supabase/server'
+import CourseCard from '@/components/course-card'
+import type { Course } from '@/lib/types'
 
-export default function Home() {
+async function getFeaturedCourses() {
+  'use cache'
+  cacheLife('hours')
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    { cookies: { getAll: () => [], setAll: () => {} } }
+  )
+
+  const { data } = await supabase
+    .from('courses')
+    .select('*, lessons(id)')
+    .eq('is_published', true)
+    .eq('lessons.is_published', true)
+    .order('sort_order', { ascending: true })
+    .limit(6)
+
+  return (data ?? []).map((c) => ({
+    ...(c as Course),
+    lesson_count: Array.isArray(c.lessons) ? c.lessons.length : 0,
+  }))
+}
+
+async function HeroCTA() {
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getClaims()
+  const isLoggedIn = !!data?.claims
+
+  return isLoggedIn ? (
+    <Link
+      href="/my"
+      className="inline-flex items-center rounded-md bg-white px-8 py-3.5 text-base font-bold text-[#1c1d1f] transition-opacity hover:opacity-90"
+    >
+      マイページへ
+    </Link>
+  ) : (
+    <Link
+      href="/courses"
+      className="inline-flex items-center rounded-md bg-white px-8 py-3.5 text-base font-bold text-[#1c1d1f] transition-opacity hover:opacity-90"
+    >
+      無料で始める →
+    </Link>
+  )
+}
+
+export default async function TopPage() {
+  const courses = await getFeaturedCourses()
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <>
+      {/* Hero */}
+      <section className="bg-gradient-to-r from-[#1c1d1f] to-[#2d1b69] py-20 text-white">
+        <div className="mx-auto max-w-5xl px-4">
+          <div className="max-w-2xl space-y-5">
+            <p className="text-sm font-semibold uppercase tracking-widest text-purple-300">
+              完全無料のプログラミング学習
+            </p>
+            <h1 className="text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              動画で学ぶ、<br />
+              <span className="text-purple-300">スキル</span>を磨く
+            </h1>
+            <p className="text-lg text-gray-300">
+              体系的な動画講座で実践的なスキルを学べる無料プラットフォーム。
+              Next.js、TypeScript、Reactなど最新技術を習得しましょう。
+            </p>
+            <Suspense
+              fallback={
+                <div className="inline-block h-12 w-40 animate-pulse rounded-md bg-white/20" />
+              }
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <HeroCTA />
+            </Suspense>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Stats bar */}
+      <div className="border-b border-border bg-muted/50">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-6 px-4 py-3 text-sm text-muted-foreground">
+          <span>✓ 全講座無料</span>
+          <span>✓ ログイン不要で視聴可能</span>
+          <span>✓ 進捗管理機能つき</span>
+          <span>✓ スマホ・PC対応</span>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+
+      {/* Featured courses */}
+      {courses.length > 0 && (
+        <section className="mx-auto w-full max-w-5xl px-4 py-14">
+          <div className="mb-8 flex items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">注目の講座</h2>
+              <p className="mt-1 text-sm text-muted-foreground">人気の講座をチェックしよう</p>
+            </div>
+            <Link href="/courses" className="text-sm font-medium text-primary hover:underline">
+              すべて見る →
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Features */}
+      <section className="border-t border-border bg-muted/30 py-14">
+        <div className="mx-auto max-w-5xl px-4">
+          <h2 className="mb-10 text-center text-2xl font-bold">Bukimix で学ぶ理由</h2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              {
+                icon: '🎬',
+                title: '動画でわかりやすく',
+                desc: 'テキストだけではわかりにくい概念も、動画で視覚的に理解できます。',
+              },
+              {
+                icon: '🆓',
+                title: '完全無料',
+                desc: 'すべての講座・レッスンを登録なしで無料でご利用いただけます。',
+              },
+              {
+                icon: '📊',
+                title: '進捗を管理',
+                desc: 'ログインすると学習進捗を記録。どこまで学んだか一目でわかります。',
+              },
+            ].map((f) => (
+              <div
+                key={f.title}
+                className="rounded-xl border border-border bg-card p-6 text-center space-y-3"
+              >
+                <div className="text-4xl">{f.icon}</div>
+                <h3 className="font-bold">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA bottom */}
+      <section className="bg-[#1c1d1f] py-16 text-center text-white">
+        <div className="mx-auto max-w-2xl px-4 space-y-4">
+          <h2 className="text-2xl font-bold">今すぐ学習を始めよう</h2>
+          <p className="text-gray-400">無料・登録不要で全講座にアクセスできます。</p>
+          <Link
+            href="/courses"
+            className="inline-flex items-center rounded-md bg-purple-600 px-8 py-3 text-base font-bold text-white transition-colors hover:bg-purple-700"
+          >
+            講座一覧を見る
+          </Link>
+        </div>
+      </section>
+    </>
+  )
 }

@@ -1,0 +1,49 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Bukimix" [ref=e5] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e6]:
+        - button "メニューを開く" [ref=e8]:
+          - img [ref=e9]
+        - img "ブキブキ" [ref=e11]
+        - generic [ref=e12]: ブキブキ
+        - button "ログアウト" [ref=e14]
+  - main [ref=e16]:
+    - heading "Next.js 基礎講座" [level=1] [ref=e18]
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - heading "レッスン一覧" [level=2] [ref=e21]
+        - list [ref=e22]:
+          - listitem [ref=e23]:
+            - link "1 イントロダクション 5:00" [ref=e24] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/intro
+              - generic [ref=e25]: "1"
+              - generic [ref=e26]: イントロダクション
+              - generic [ref=e27]: 5:00
+          - listitem [ref=e28]:
+            - link "2 App Router の基礎 10:00" [ref=e29] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/app-router
+              - generic [ref=e30]: "2"
+              - generic [ref=e31]: App Router の基礎
+              - generic [ref=e32]: 10:00
+          - listitem [ref=e33]:
+            - link "3 データフェッチング 12:00" [ref=e34] [cursor=pointer]:
+              - /url: /courses/nextjs-fundamentals/lessons/data-fetching
+              - generic [ref=e35]: "3"
+              - generic [ref=e36]: データフェッチング
+              - generic [ref=e37]: 12:00
+      - complementary [ref=e38]:
+        - generic [ref=e39]:
+          - heading "概要" [level=2] [ref=e40]
+          - paragraph [ref=e41]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+  - contentinfo [ref=e43]:
+    - generic [ref=e44]:
+      - link "利用規約" [ref=e45] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e46] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e47]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e53] [cursor=pointer]:
+    - img [ref=e54]
+  - alert [ref=e57]

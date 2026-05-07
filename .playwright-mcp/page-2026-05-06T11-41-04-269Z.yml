@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Bukimix" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e5]:
+        - link "講座一覧" [ref=e6] [cursor=pointer]:
+          - /url: /courses
+      - link "ログイン" [ref=e8] [cursor=pointer]:
+        - /url: /login
+  - generic [ref=e9]:
+    - generic [ref=e11]:
+      - navigation [ref=e12]:
+        - link "講座一覧" [ref=e13] [cursor=pointer]:
+          - /url: /courses
+        - generic [ref=e14]: /
+        - generic [ref=e15]: Next.js 基礎講座
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - heading "Next.js 基礎講座" [level=1] [ref=e18]
+          - paragraph [ref=e19]: Next.js App Router を使ったモダンなウェブアプリ開発を学びます。
+          - generic [ref=e20]:
+            - generic [ref=e21]:
+              - generic [ref=e22]: "4.7"
+              - generic [ref=e23]: ★★★★★
+              - generic [ref=e24]: (1,234)
+            - generic [ref=e25]: 6 レッスン
+            - generic [ref=e26]: 無料
+          - paragraph [ref=e27]: "講師: Bukimix 講師"
+        - link "▶ 今すぐ始める" [ref=e29] [cursor=pointer]:
+          - /url: /login
+    - main [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - heading "レッスン一覧" [level=2] [ref=e33]
+          - list [ref=e34]:
+            - listitem [ref=e35]:
+              - link "1 イントロダクション 1:40" [ref=e36] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e37]: "1"
+                - generic [ref=e38]: イントロダクション
+                - generic [ref=e39]: 1:40
+            - listitem [ref=e40]:
+              - link "2 App Router の基礎 2:36" [ref=e41] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e42]: "2"
+                - generic [ref=e43]: App Router の基礎
+                - generic [ref=e44]: 2:36
+            - listitem [ref=e45]:
+              - link "3 データフェッチング 1:40" [ref=e46] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e47]: "3"
+                - generic [ref=e48]: データフェッチング
+                - generic [ref=e49]: 1:40
+            - listitem [ref=e50]:
+              - link "4 Server Components 入門 3:33" [ref=e51] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e52]: "4"
+                - generic [ref=e53]: Server Components 入門
+                - generic [ref=e54]: 3:33
+            - listitem [ref=e55]:
+              - link "5 Supabase との連携 3:33" [ref=e56] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e57]: "5"
+                - generic [ref=e58]: Supabase との連携
+                - generic [ref=e59]: 3:33
+            - listitem [ref=e60]:
+              - link "6 Vercel へのデプロイ 3:33" [ref=e61] [cursor=pointer]:
+                - /url: /login
+                - generic [ref=e62]: "6"
+                - generic [ref=e63]: Vercel へのデプロイ
+                - generic [ref=e64]: 3:33
+        - complementary [ref=e65]
+  - contentinfo [ref=e66]:
+    - generic [ref=e67]:
+      - link "利用規約" [ref=e68] [cursor=pointer]:
+        - /url: /terms
+      - link "プライバシーポリシー" [ref=e69] [cursor=pointer]:
+        - /url: /privacy
+    - paragraph [ref=e70]: © 2026 Bukimix
+  - button "Open Next.js Dev Tools" [ref=e76] [cursor=pointer]:
+    - img [ref=e77]
