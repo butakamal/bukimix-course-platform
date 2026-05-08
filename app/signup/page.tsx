@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import { signInWithGoogle } from '@/lib/actions/auth'
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <main className="flex min-h-screen items-center justify-center">
       <div className="w-full max-w-sm space-y-6 rounded-xl border border-border p-8">
         <div className="space-y-1 text-center">
-          <h1 className="text-2xl font-bold tracking-tight">ログイン</h1>
+          <h1 className="text-2xl font-bold tracking-tight">新規登録</h1>
           <p className="text-sm text-muted-foreground">
-            アカウントにログインしてください
+            Googleアカウントで無料登録できます
           </p>
         </div>
 
@@ -35,14 +35,14 @@ export default function LoginPage() {
                 fill="#EA4335"
               />
             </svg>
-            Googleでログイン
+            Googleで登録
           </button>
         </form>
 
         <p className="text-center text-sm text-muted-foreground">
-          アカウントをお持ちでない方は{' '}
-          <Link href="/signup" className="underline underline-offset-4 hover:text-foreground">
-            新規登録
+          すでにアカウントをお持ちの方は{' '}
+          <Link href="/login" className="underline underline-offset-4 hover:text-foreground">
+            ログイン
           </Link>
         </p>
       </div>

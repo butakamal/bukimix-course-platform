@@ -1,10 +1,10 @@
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { createServerClient } from '@supabase/ssr'
 import { cacheLife, cacheTag } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
-import LessonVideoSection from '@/components/lesson-video-section'
+import { createCacheClient } from '@/lib/supabase/server'
+import { getAuthUser } from '@/lib/auth'
+import LessonVideoSection from '@/components/lesson-video-section-dynamic'
 import MarkAsCompletedButton from '@/components/mark-as-completed-button'
 import LessonList from '@/components/lesson-list'
 import ReactMarkdown from 'react-markdown'
@@ -12,59 +12,39 @@ import type { Course, Lesson } from '@/lib/types'
 
 // ─── Cached static data (shared across all users) ────────────────────────────
 
-function cacheClient() {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { cookies: { getAll: () => [], setAll: () => {} } }
-  )
-}
-
 async function getLessonData(courseSlug: string, lessonSlug: string) {
   'use cache'
   cacheLife('hours')
   cacheTag('courses')
 
-  const supabase = cacheClient()
+  const supabase = createCacheClient()
 
   const { data: course } = await supabase
     .from('courses')
-    .select('*')
+    .select('*, lessons(*)')
     .eq('slug', courseSlug)
     .eq('is_published', true)
+    .eq('lessons.is_published', true)
+    .order('sort_order', { referencedTable: 'lessons', ascending: true })
     .single()
 
   if (!course) return null
 
-  const { data: lessons } = await supabase
-    .from('lessons')
-    .select('*')
-    .eq('course_id', course.id)
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
-
-  const lesson = (lessons ?? []).find((l) => l.slug === lessonSlug)
+  const lessons = (course.lessons ?? []) as Lesson[]
+  const lesson = lessons.find((l) => l.slug === lessonSlug)
   if (!lesson) return null
 
   return {
     course: course as Course,
-    lessons: (lessons ?? []) as Lesson[],
-    lesson: lesson as Lesson,
+    lessons,
+    lesson,
   }
 }
 
 // ─── Per-user streaming sections ─────────────────────────────────────────────
 
-async function CompletedButtonSection({
-  lessonId,
-  courseSlug,
-}: {
-  lessonId: string
-  courseSlug: string
-}) {
-  const supabase = await createClient()
-  const { data: claimsData } = await supabase.auth.getClaims()
-  const userId = claimsData?.claims?.sub ?? null
+async function CompletedButtonSection({ lessonId }: { lessonId: string }) {
+  const { supabase, userId } = await getAuthUser()
 
   const isCompleted = userId
     ? await supabase
@@ -76,13 +56,7 @@ async function CompletedButtonSection({
         .then(({ data }) => !!data)
     : false
 
-  return (
-    <MarkAsCompletedButton
-      lessonId={lessonId}
-      courseSlug={courseSlug}
-      isCompleted={isCompleted}
-    />
-  )
+  return <MarkAsCompletedButton lessonId={lessonId} isCompleted={isCompleted} />
 }
 
 async function SidebarProgressSection({
@@ -94,9 +68,7 @@ async function SidebarProgressSection({
   courseSlug: string
   currentLessonSlug: string
 }) {
-  const supabase = await createClient()
-  const { data: claimsData } = await supabase.auth.getClaims()
-  const userId = claimsData?.claims?.sub ?? null
+  const { supabase, userId } = await getAuthUser()
 
   const completedIds = userId
     ? await supabase
@@ -121,7 +93,7 @@ async function SidebarProgressSection({
 // ─── Route exports ────────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
-  const supabase = cacheClient()
+  const supabase = createCacheClient()
   const { data: courses } = await supabase
     .from('courses')
     .select('slug, lessons(slug)')
@@ -171,7 +143,6 @@ export default async function LessonPage(
           <LessonVideoSection
             videoId={lesson.youtube_video_id}
             lessonId={lesson.id}
-            courseSlug={courseSlug}
             isCompleted={false}
           />
 
@@ -184,10 +155,7 @@ export default async function LessonPage(
                 <div className="h-9 w-28 animate-pulse rounded-md bg-muted" />
               }
             >
-              <CompletedButtonSection
-                lessonId={lesson.id}
-                courseSlug={courseSlug}
-              />
+              <CompletedButtonSection lessonId={lesson.id} />
             </Suspense>
           </div>
 

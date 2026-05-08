@@ -20,24 +20,27 @@ const SLUG_RE = /^[a-z0-9-]{1,100}$/
 
 const YT_HOSTNAMES = new Set(['youtube.com', 'www.youtube.com', 'youtu.be', 'm.youtube.com'])
 
+function isValidVideoId(id: string | null | undefined): id is string {
+  return typeof id === 'string' && /^[\w-]{11}$/.test(id)
+}
+
 function parseYouTubeUrl(input: string): string | null {
   const trimmed = input.trim()
-  // Already a bare video ID (11 chars: alphanumeric, -, _)
   if (/^[\w-]{11}$/.test(trimmed)) return trimmed
   try {
     const url = new URL(trimmed)
     if (url.hostname !== 'youtu.be' && YT_HOSTNAMES.has(url.hostname)) {
-      // /watch?v=ID or /shorts/ID or /embed/ID
       const v = url.searchParams.get('v')
-      if (v) return v
+      if (isValidVideoId(v)) return v
       const parts = url.pathname.split('/')
       const shortIdx = parts.indexOf('shorts')
-      if (shortIdx !== -1) return parts[shortIdx + 1] ?? null
+      if (shortIdx !== -1) return isValidVideoId(parts[shortIdx + 1]) ? parts[shortIdx + 1] : null
       const embedIdx = parts.indexOf('embed')
-      if (embedIdx !== -1) return parts[embedIdx + 1] ?? null
+      if (embedIdx !== -1) return isValidVideoId(parts[embedIdx + 1]) ? parts[embedIdx + 1] : null
     }
     if (url.hostname === 'youtu.be') {
-      return url.pathname.slice(1).split('/')[0] || null
+      const id = url.pathname.slice(1).split('/')[0] || null
+      return isValidVideoId(id) ? id : null
     }
   } catch {
     // not a valid URL

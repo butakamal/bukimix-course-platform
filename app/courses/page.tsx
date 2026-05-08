@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import { createServerClient } from '@supabase/ssr'
 import { cacheLife, cacheTag } from 'next/cache'
+import { createCacheClient } from '@/lib/supabase/server'
 import CourseCard from '@/components/course-card'
 import type { Course } from '@/lib/types'
 
@@ -16,11 +16,7 @@ async function getCourses(): Promise<CourseWithCount[]> {
   cacheLife('hours')
   cacheTag('courses')
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { cookies: { getAll: () => [], setAll: () => {} } }
-  )
+  const supabase = createCacheClient()
 
   const { data } = await supabase
     .from('courses')

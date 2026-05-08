@@ -1,5 +1,3 @@
-'use client'
-
 import { signOut } from '@/lib/actions/auth'
 
 export default function LogoutButton() {
