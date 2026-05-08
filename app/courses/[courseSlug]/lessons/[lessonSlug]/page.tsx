@@ -41,32 +41,22 @@ async function getLessonData(courseSlug: string, lessonSlug: string) {
   }
 }
 
-// ─── Per-user streaming sections ─────────────────────────────────────────────
+// ─── Single per-user streaming section (one progress query) ──────────────────
 
-async function CompletedButtonSection({ lessonId }: { lessonId: string }) {
-  const { supabase, userId } = await getAuthUser()
-
-  const isCompleted = userId
-    ? await supabase
-        .from('progress')
-        .select('lesson_id')
-        .eq('user_id', userId)
-        .eq('lesson_id', lessonId)
-        .maybeSingle()
-        .then(({ data }) => !!data)
-    : false
-
-  return <MarkAsCompletedButton lessonId={lessonId} isCompleted={isCompleted} />
-}
-
-async function SidebarProgressSection({
+async function UserInteractiveSection({
+  lesson,
   lessons,
+  course,
   courseSlug,
-  currentLessonSlug,
+  prevLesson,
+  nextLesson,
 }: {
+  lesson: Lesson
   lessons: Lesson[]
+  course: Course
   courseSlug: string
-  currentLessonSlug: string
+  prevLesson: Lesson | null
+  nextLesson: Lesson | null
 }) {
   const { supabase, userId } = await getAuthUser()
 
@@ -80,13 +70,56 @@ async function SidebarProgressSection({
     : new Set<string>()
 
   return (
-    <LessonList
-      lessons={lessons}
-      courseSlug={courseSlug}
-      completedIds={completedIds}
-      isLoggedIn={!!userId}
-      currentLessonSlug={currentLessonSlug}
-    />
+    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-xl font-bold leading-snug">{lesson.title}</h1>
+          <MarkAsCompletedButton
+            lessonId={lesson.id}
+            courseSlug={courseSlug}
+            isCompleted={completedIds.has(lesson.id)}
+          />
+        </div>
+
+        {lesson.description && (
+          <article className="prose prose-sm max-w-none dark:prose-invert">
+            <ReactMarkdown>{lesson.description}</ReactMarkdown>
+          </article>
+        )}
+
+        <nav className="flex items-center justify-between border-t border-border pt-4">
+          {prevLesson ? (
+            <Link
+              href={`/courses/${courseSlug}/lessons/${prevLesson.slug}`}
+              className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              ← {prevLesson.title}
+            </Link>
+          ) : (
+            <span />
+          )}
+          {nextLesson && (
+            <Link
+              href={`/courses/${courseSlug}/lessons/${nextLesson.slug}`}
+              className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {nextLesson.title} →
+            </Link>
+          )}
+        </nav>
+      </div>
+
+      <aside>
+        <h2 className="mb-3 text-sm font-semibold">{course.title}</h2>
+        <LessonList
+          lessons={lessons}
+          courseSlug={courseSlug}
+          completedIds={completedIds}
+          isLoggedIn={!!userId}
+          currentLessonSlug={lesson.slug}
+        />
+      </aside>
+    </div>
   )
 }
 
@@ -122,7 +155,6 @@ export default async function LessonPage(
 ) {
   const { courseSlug, lessonSlug } = await props.params
 
-  // Static cached data — no per-user info, streams immediately
   const data = await getLessonData(courseSlug, lessonSlug)
   if (!data) notFound()
 
@@ -134,80 +166,52 @@ export default async function LessonPage(
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-6">
-      <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-        <div className="space-y-4">
-          {/*
-           * isCompleted=false: the facade thumbnail renders immediately.
-           * markAsCompleted uses upsert+ignoreDuplicates so re-calling is safe.
-           */}
-          <LessonVideoSection
-            videoId={lesson.youtube_video_id}
-            lessonId={lesson.id}
-            isCompleted={false}
-          />
+      {/*
+       * Video renders immediately as part of the static shell.
+       * isCompleted=false: markAsCompleted uses upsert+ignoreDuplicates so re-calling is safe.
+       */}
+      <div className="mb-6">
+        <LessonVideoSection
+          videoId={lesson.youtube_video_id}
+          lessonId={lesson.id}
+          courseSlug={courseSlug}
+          isCompleted={false}
+        />
+      </div>
 
-          <div className="flex items-center justify-between gap-4">
-            <h1 className="text-xl font-bold leading-snug">{lesson.title}</h1>
-
-            {/* Streams in after progress query completes */}
-            <Suspense
-              fallback={
+      {/* Title, button, description, nav, and sidebar all share one progress query */}
+      <Suspense
+        fallback={
+          <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between gap-4">
+                <h1 className="text-xl font-bold leading-snug">{lesson.title}</h1>
                 <div className="h-9 w-28 animate-pulse rounded-md bg-muted" />
-              }
-            >
-              <CompletedButtonSection lessonId={lesson.id} />
-            </Suspense>
-          </div>
-
-          {lesson.description && (
-            <article className="prose prose-sm max-w-none dark:prose-invert">
-              <ReactMarkdown>{lesson.description}</ReactMarkdown>
-            </article>
-          )}
-
-          <nav className="flex items-center justify-between border-t border-border pt-4">
-            {prevLesson ? (
-              <Link
-                href={`/courses/${courseSlug}/lessons/${prevLesson.slug}`}
-                className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                ← {prevLesson.title}
-              </Link>
-            ) : (
-              <span />
-            )}
-            {nextLesson && (
-              <Link
-                href={`/courses/${courseSlug}/lessons/${nextLesson.slug}`}
-                className="flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {nextLesson.title} →
-              </Link>
-            )}
-          </nav>
-        </div>
-
-        <aside>
-          <h2 className="mb-3 text-sm font-semibold">{course.title}</h2>
-
-          {/* Sidebar lesson list streams in with completion status */}
-          <Suspense
-            fallback={
+              </div>
+            </div>
+            <aside>
+              <h2 className="mb-3 text-sm font-semibold">{course.title}</h2>
               <ol className="divide-y divide-border rounded-xl border border-border">
                 {lessons.map((l) => (
-                  <li key={l.id} className="h-12 animate-pulse bg-muted/40 first:rounded-t-xl last:rounded-b-xl" />
+                  <li
+                    key={l.id}
+                    className="h-12 animate-pulse bg-muted/40 first:rounded-t-xl last:rounded-b-xl"
+                  />
                 ))}
               </ol>
-            }
-          >
-            <SidebarProgressSection
-              lessons={lessons}
-              courseSlug={courseSlug}
-              currentLessonSlug={lessonSlug}
-            />
-          </Suspense>
-        </aside>
-      </div>
+            </aside>
+          </div>
+        }
+      >
+        <UserInteractiveSection
+          lesson={lesson}
+          lessons={lessons}
+          course={course}
+          courseSlug={courseSlug}
+          prevLesson={prevLesson}
+          nextLesson={nextLesson}
+        />
+      </Suspense>
     </main>
   )
 }

@@ -10,20 +10,7 @@ async function getAuthenticatedUser() {
   return { supabase, userId: data.claims.sub }
 }
 
-async function revalidateCourseByLesson(
-  supabase: Awaited<ReturnType<typeof createClient>>,
-  lessonId: string
-) {
-  const { data } = await supabase
-    .from('lessons')
-    .select('courses(slug)')
-    .eq('id', lessonId)
-    .single()
-  const courseSlug = (data?.courses as { slug: string }[] | null)?.[0]?.slug
-  if (courseSlug) revalidatePath(`/courses/${courseSlug}`)
-}
-
-export async function markAsCompleted(lessonId: string) {
+export async function markAsCompleted(lessonId: string, courseSlug: string) {
   const { supabase, userId } = await getAuthenticatedUser()
 
   await supabase.from('progress').upsert(
@@ -31,12 +18,12 @@ export async function markAsCompleted(lessonId: string) {
     { onConflict: 'user_id,lesson_id', ignoreDuplicates: true }
   )
 
-  await revalidateCourseByLesson(supabase, lessonId)
+  revalidatePath(`/courses/${courseSlug}`)
   revalidatePath('/my')
   updateTag('courses')
 }
 
-export async function markAsIncomplete(lessonId: string) {
+export async function markAsIncomplete(lessonId: string, courseSlug: string) {
   const { supabase, userId } = await getAuthenticatedUser()
 
   await supabase
@@ -45,7 +32,7 @@ export async function markAsIncomplete(lessonId: string) {
     .eq('user_id', userId)
     .eq('lesson_id', lessonId)
 
-  await revalidateCourseByLesson(supabase, lessonId)
+  revalidatePath(`/courses/${courseSlug}`)
   revalidatePath('/my')
   updateTag('courses')
 }

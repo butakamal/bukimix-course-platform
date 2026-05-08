@@ -5,18 +5,19 @@ import { markAsCompleted, markAsIncomplete } from '@/lib/actions/progress'
 
 type Props = {
   lessonId: string
+  courseSlug: string
   isCompleted: boolean
 }
 
-export default function MarkAsCompletedButton({ lessonId, isCompleted }: Props) {
+export default function MarkAsCompletedButton({ lessonId, courseSlug, isCompleted }: Props) {
   const [isPending, startTransition] = useTransition()
 
   function toggle() {
     startTransition(async () => {
       if (isCompleted) {
-        await markAsIncomplete(lessonId)
+        await markAsIncomplete(lessonId, courseSlug)
       } else {
-        await markAsCompleted(lessonId)
+        await markAsCompleted(lessonId, courseSlug)
       }
     })
   }
