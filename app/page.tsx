@@ -1,20 +1,16 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { createServerClient } from '@supabase/ssr'
-import { cacheLife } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
+import { cacheLife, cacheTag } from 'next/cache'
+import { createClient, createCacheClient } from '@/lib/supabase/server'
 import CourseCard from '@/components/course-card'
 import type { Course } from '@/lib/types'
 
 async function getFeaturedCourses() {
   'use cache'
   cacheLife('hours')
+  cacheTag('courses')
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { cookies: { getAll: () => [], setAll: () => {} } }
-  )
+  const supabase = createCacheClient()
 
   const { data } = await supabase
     .from('courses')

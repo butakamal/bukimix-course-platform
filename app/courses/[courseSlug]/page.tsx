@@ -1,48 +1,35 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { createServerClient } from '@supabase/ssr'
 import { cacheLife, cacheTag } from 'next/cache'
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createCacheClient } from '@/lib/supabase/server'
 import LessonList from '@/components/lesson-list'
 import ProgressBar from '@/components/progress-bar'
 import type { Course, Lesson } from '@/lib/types'
-
-function cacheClient() {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { cookies: { getAll: () => [], setAll: () => {} } }
-  )
-}
 
 async function getCourseWithLessons(courseSlug: string) {
   'use cache'
   cacheLife('hours')
   cacheTag('courses')
 
-  const supabase = cacheClient()
+  const supabase = createCacheClient()
   const { data: course } = await supabase
     .from('courses')
-    .select('*')
+    .select('*, lessons(*)')
     .eq('slug', courseSlug)
     .eq('is_published', true)
+    .eq('lessons.is_published', true)
+    .order('sort_order', { referencedTable: 'lessons', ascending: true })
     .single()
 
   if (!course) return null
 
-  const { data: lessons } = await supabase
-    .from('lessons')
-    .select('*')
-    .eq('course_id', course.id)
-    .eq('is_published', true)
-    .order('sort_order', { ascending: true })
-
-  return { course: course as Course, lessons: (lessons ?? []) as Lesson[] }
+  const lessons = (course.lessons ?? []) as Lesson[]
+  return { course: course as Course, lessons }
 }
 
 export async function generateStaticParams() {
-  const supabase = cacheClient()
+  const supabase = createCacheClient()
   const { data } = await supabase
     .from('courses')
     .select('slug')
